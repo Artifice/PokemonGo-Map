@@ -7,13 +7,14 @@ import sys
 import gc
 import time
 import geopy
-from peewee import SqliteDatabase, InsertQuery, \
+from peewee import InsertQuery, \
     IntegerField, CharField, DoubleField, BooleanField, \
     DateTimeField, fn, DeleteQuery, CompositeKey, FloatField, SQL, TextField
 from playhouse.flask_utils import FlaskDB
 from playhouse.pool import PooledMySQLDatabase
 from playhouse.shortcuts import RetryOperationalError
 from playhouse.migrate import migrate, MySQLMigrator, SqliteMigrator
+from playhouse.sqlite_ext import SqliteExtDatabase
 from datetime import datetime, timedelta
 from base64 import b64encode
 from cachetools import TTLCache
@@ -53,7 +54,7 @@ def init_database(app):
             stale_timeout=300)
     else:
         log.info('Connecting to local SQLite database')
-        db = SqliteDatabase(args.db)
+        db = SqliteExtDatabase(args.db, journal_mode='WAL')
 
     app.config['DATABASE'] = db
     flaskDb.init_app(app)
