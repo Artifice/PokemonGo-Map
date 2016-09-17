@@ -471,13 +471,13 @@ function spawnpointLabel (item) {
       <b>Spawn Point</b>
     </div>
     <div>
-      Every hour from ${formatSpawnTime(item.time)} to ${formatSpawnTime(item.time + 900)}
+      Every hour from ${formatSpawnTime(item.time)} to ${formatSpawnTime(Math.floor(item.time) + 900)}
     </div>`
 
   if (item.special) {
     str += `
       <div>
-        May appear as early as ${formatSpawnTime(item.time - 1800)}
+        May appear as early as ${formatSpawnTime(Math.floor(item.time) - 1800)}
       </div>`
   }
   return str
